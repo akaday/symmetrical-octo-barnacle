@@ -25,8 +25,10 @@ export const configureTests = (configure: ConfigureFn, compilerOptions: Compiler
 };
 
 export const replaceIndexNG = (index: string) => {
-  return (
-    index
+  let previous;
+  do {
+    previous = index;
+    index = index
       /** take out meta tag */
       .replace(/ content=[\"\']Scully(.*)[\"\']/g, '')
       /** take out scully version from body tag */
@@ -42,8 +44,9 @@ export const replaceIndexNG = (index: string) => {
       /** take out ng-transition styles */
       // .replace(/<style.?ng-transition(?:.*)<\/style>/gis, '')
       /** take out sourcemaps */
-      .replace(/\/\*# sourceMappingURL.*\*\//g, '')
-  );
+      .replace(/\/\*# sourceMappingURL.*\*\//g, '');
+  } while (index !== previous);
+  return index;
 };
 
 export const extractTransferState = (index: string) => {
