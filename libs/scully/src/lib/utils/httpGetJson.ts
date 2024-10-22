@@ -31,7 +31,6 @@ export function httpGetJson(
   You can ignore the warning (TLS) or run scully with --no-warning
 ****************************************************************************************`);
   }
-  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
   const httpGet = isSSL ? getHttps : get;
   return new Promise((resolve, reject) => {
     const { pathname, hostname, port, protocol, search, hash } = new URL(url);
