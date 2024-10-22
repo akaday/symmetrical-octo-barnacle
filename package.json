@@ -90,7 +90,7 @@
     "@angular/platform-server": "12.2.6",
     "@angular/router": "12.2.6",
     "@nrwl/nx-cloud": "^12.3.13",
-    "@sentry/node": "^6.12.0",
+    "@sentry/node": "^8.35.0",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.12",
     "@types/minimatch": "^3.0.5",
