@@ -1,6 +1,7 @@
 import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import { readFileSync } from 'fs-extra';
 import { join } from 'path';
 import { existFolder, isPortTaken } from '..';
@@ -25,6 +26,11 @@ export async function staticServer(port?: number) {
 
     port = port || dotProps.staticPort;
     const scullyServer = express();
+    const limiter = rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // limit each IP to 100 requests per windowMs
+    });
+    scullyServer.use(limiter);
 
     if (tds) {
       dataServerInstance = await startDataServer(ssl);
@@ -65,6 +71,7 @@ export async function staticServer(port?: number) {
     });
 
     const angularDistServer = express();
+    angularDistServer.use(limiter);
     angularDistServer.use(compression());
     proxyAdd(angularDistServer);
     angularDistServer.get('/_pong', (req, res) => {
