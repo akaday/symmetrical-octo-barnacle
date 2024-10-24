@@ -26,6 +26,7 @@ export const configureTests = (configure: ConfigureFn, compilerOptions: Compiler
 };
 
 export const replaceIndexNG = (index: string) => {
+
   return sanitizeHtml(index, {
     allowedTags: sanitizeHtml.defaults.allowedTags.filter(tag => tag !== 'script'),
     allowedAttributes: {
@@ -33,6 +34,16 @@ export const replaceIndexNG = (index: string) => {
     },
     disallowedTagsMode: 'discard'
   });
+
+  const cleanIndex = sanitizeHtml(index, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.filter(tag => tag !== 'script' && tag !== 'style'),
+    allowedAttributes: {
+      '*': ['!ng-*', '!scully-version', '!ng-version']
+    },
+    allowedSchemes: sanitizeHtml.defaults.allowedSchemes.concat(['data'])
+  });
+  return cleanIndex;
+
 };
 
 export const extractTransferState = (index: string) => {
