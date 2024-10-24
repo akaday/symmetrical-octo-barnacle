@@ -50,6 +50,9 @@ export const registerPlugin = <T extends keyof PluginFuncs>(
   pluginOptions?: ConfigValidator | number | string[],
   { replaceExistingPlugin = false }: RegisterOptions = {}
 ): void => {
+  if (!pluginTypes.includes(type)) {
+    throw new Error(`Invalid plugin type: ${type}`);
+  }
   const displayName = typeof name === 'string' ? name : name.description;
   if (typeof name === 'symbol') {
     logWarn(`${displayName} is a Symbol. Using those is deprecated. use "const x = 'myId' as const" instead`);
