@@ -68,17 +68,11 @@ const plugin = async () => {
     }
     printProgress(true, 'compiling application');
     rmSync(outDir, { recursive: true, force: true });
-    await runScript(`npx ngc -p "${tsConfigPath}"`).catch(() => {
-      logError(`Couldn't compile ${yellow(modulePath)}. Please fix the above errors in the app, and run Scully again.`);
-      process.exit(0);
-    });
-    log(`  ${green('✔')} Angular application compiled successfully`);
-    printProgress(false, 'starting workers');
-    await startPSRunner();
+   await runScript('npx', ['ngc', '-p', tsConfigPath]).catch(() => {
+  logError(`Couldn't compile ${yellow(modulePath)}. Please fix the above errors in the app, and run Scully again.`);
+  process.exit(0);
+});
 
-    // process.exit(0);
-  }
-};
 
 /**
  * Set up the Scully Platform Server render
